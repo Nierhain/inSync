@@ -1,0 +1,67 @@
+﻿@page "/"
+@using System.Security.Claims
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>Index</PageTitle>
+
+@if (_isAuthenticated)
+{
+    <ul>
+        @foreach (var claim in _claims)
+        {
+            <li>@claim.Type: @claim.Value</li>
+        }
+    </ul>
+}
+
+@if (!_isAuthenticated && !_isRegistering)
+{
+    <form>
+        <label for="username">Username</label>
+        <input @bind="_username" type="text" name="username" id="username"/><br/>
+        <label for="password" name="password" id="password">Password</label>
+        <input @bind="_password" type="password" name="password"/><br/>
+        <button type="button" @onclick="@toggleRegistering">Register</button>
+        <button type="submit" @onclick="@Login">Login</button>
+    </form>
+}
+
+@if (_isRegistering)
+{
+    <form>
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username"/><br/>
+                <label for="password" name="password" id="password">Password</label>
+                <input type="password" name="password"/><br/>
+                <button type="submit" @onclick="@Register">Register</button>
+    </form>
+}
+@code{
+    private bool _isAuthenticated;
+    private bool _isRegistering;
+    private string _username;
+    private string _password;
+    private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+
+    private void toggleRegistering()
+    {
+        _isRegistering = !_isRegistering;
+    }
+
+    private async Task Register(MouseEventArgs mouseEventArgs)
+    {
+        
+    }
+    
+    private async Task Login()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            _claims = user.Claims;
+            _isAuthenticated = true;
+        }
+    }
+}
