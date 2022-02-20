@@ -1,7 +1,12 @@
 package de.nierhain.insync;
 
+import de.nierhain.insync.blocks.BlockPrinter;
+import de.nierhain.insync.blocks.BlockScanner;
+import de.nierhain.insync.tile.TilePrinter;
+import de.nierhain.insync.tile.TileScanner;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,6 +21,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Mod("insync")
@@ -36,11 +42,11 @@ public class InSync {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
+
+
     private void setup(final FMLCommonSetupEvent event)
     {
-        // some preinit code
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -64,8 +70,6 @@ public class InSync {
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
-        // do something when the server starts
-        LOGGER.info("HELLO from server starting");
     }
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
@@ -73,9 +77,16 @@ public class InSync {
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
         @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-            // register a new block here
-            LOGGER.info("HELLO from Register Block");
+        public static void onBlocksRegistry(final RegistryEvent.Register<Block> event) {
+            event.getRegistry().registerAll(new BlockScanner(), new BlockPrinter());
+        }
+        @SubscribeEvent
+        public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event){
+            TileEntityType<TileScanner> scanner = TileEntityType.Builder.of(() -> new TileScanner(),new BlockScanner()).build(null);
+            scanner.setRegistryName("insync", "tilescanner");
+            TileEntityType<TilePrinter> printer = TileEntityType.Builder.of(() -> new TilePrinter(), new BlockPrinter()).build(null);
+            printer.setRegistryName("insync", "tileprinter");
+            event.getRegistry().registerAll(scanner, printer);
         }
     }
 }
