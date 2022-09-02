@@ -1,45 +1,31 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+namespace inSync.Models;
 
-namespace inSync.Models
+public record ItemList
 {
-    public record ItemList
-    {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
-        [BsonElement("token")]
-        [JsonPropertyName("token")]
-        public Guid Token { get; set; } = Guid.Empty;
-        [BsonElement("isExpired")]
-        [JsonPropertyName("isExpired")]
-        public bool IsExpired { get; set; }
+    [JsonPropertyName("id")] public Guid Id { get; set; }
 
-        [BsonElement("items")]
-        [JsonPropertyName("items")]
-        public List<MinecraftItem> Items { get; init; } = null!;
+    [JsonPropertyName("isExpired")]
+    public bool IsExpired { get; init; }
 
-        [BsonElement("username")]
-        [JsonPropertyName("username")]
-        public string Username { get; set; }
+    [JsonPropertyName("items")]
+    public List<MinecraftItem> Items { get; init; } = default!;
 
-    }
+    [JsonPropertyName("username")]
+    public string Username { get; init; } = default!;
+}
 
-    public record ItemListDTO
-    {
-        public List<MinecraftItem> Items { get; set; };
-        public string Username { get; set; };
-    }
+public record ItemListDTO
+{
+    public List<MinecraftItem> Items { get; init; }
+    public string Username { get; init;  }
+}
 
-    public record MinecraftItem
-    {
-        [BsonElement("name")]
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
-        [BsonElement("amount")]
-        [JsonPropertyName("amount")]
-        public int? Amount { get; set; }
-    }
+public record MinecraftItem
+{
+    public Guid Id { get; set; }
+    [JsonPropertyName("name")]
+    public string? Name { get; set; }
+    [JsonPropertyName("amount")]
+    public int? Amount { get; set; }
 }

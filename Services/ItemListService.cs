@@ -1,38 +1,37 @@
-﻿using MongoDB.Driver;
-using Microsoft.Extensions.Options;
+﻿using inSync.Data;
 using inSync.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace inSync.Services
 {
     public class ItemListService
     {
-        private IMongoCollection<ItemList> _context;
-
-        public ItemListService(IOptions<MongoSettings> settings)
+        private readonly DatabaseContext _context;
+        public ItemListService(DatabaseContext context)
         {
-            var mongoClient = new MongoClient(settings.Value.ConnectionString);
-            var mongoDatabase = mongoClient.GetDatabase(settings.Value.DatabaseName);
-            _context = mongoDatabase.GetCollection<ItemList>(settings.Value.ItemListCollection);
+            _context = context;
         }
 
-        public async Task<ItemList?> Get(Guid token)
+        public async Task<ItemList> Get(Guid token)
         {
-            return await _context.Find(item => item.Token == token).FirstOrDefaultAsync();
+            return await _context.ItemLists.FindAsync(token);
         }
 
         public async Task AddItemList(ItemList itemList)
         {
-            await _context.InsertOneAsync(itemList);
+            _context.ItemLists.Add(itemList);
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateItemList(Guid token, ItemList itemList)
         {
-            await _context.ReplaceOneAsync(item => item.Token == token, itemList);
+            _context.ItemLists.Update(itemList);
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteItemList(Guid token)
         {
-            await _context.DeleteOneAsync(item => item.Token == token);
+            _context.ItemLists.Remove(await Get(token));
         }
     }
 }

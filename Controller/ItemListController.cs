@@ -42,13 +42,12 @@ namespace inSync.Controller
             ItemList itemList = new()
             {
                 IsExpired = false,
-                Token = Guid.NewGuid(),
                 Items = request.Items,
                 Username = request.Username
             };
 
             await _service.AddItemList(itemList);
-            return CreatedAtAction(nameof(GetItemList), new {token = itemList.Token}, itemList);
+            return CreatedAtAction(nameof(GetItemList), new {token = itemList}, itemList);
         }
 
         [HttpPut("{token:guid}")]

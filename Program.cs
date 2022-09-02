@@ -2,11 +2,14 @@ using inSync.Models;
 using inSync.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
-builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection("ItemListDatabase"));
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(corsBuilder =>
+    {
+        corsBuilder.AllowAnyOrigin();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -20,8 +23,5 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
 
 app.Run();
