@@ -1,0 +1,8 @@
+{
+  "item.insync.printer": "Printer",
+  "item.insync.scanner": "Scanner",
+  "block.insync.printer": "Printer",
+  "block.insync.scanner": "Scanner",
+
+  "itemGroup.inSync":"inSync"
+}
