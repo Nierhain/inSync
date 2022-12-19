@@ -21,6 +21,8 @@ namespace inSync.Api.Data
 
 		void deleteItem(Guid id);
 		void deleteItemList(Guid id);
+
+		Task<bool> exists<T>(Guid id) where T : class, IEntity;
 	}
 }
 

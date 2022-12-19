@@ -1,7 +1,7 @@
 ﻿using System;
 namespace inSync.Core.Models
 {
-	public class ItemList
+	public class ItemList : IEntity
 	{
 		public Guid Id { get; set; }
 		public List<Item> Items { get; set; } = new();

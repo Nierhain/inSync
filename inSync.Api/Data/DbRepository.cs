@@ -44,6 +44,11 @@ namespace inSync.Api.Data
             await save();
         }
 
+        public async Task<bool> exists<T>(Guid id) where T : class, IEntity
+        {
+            return await _context.Set<T>().AnyAsync(x => x.Id == id);
+        }
+
         public async Task<ItemDto> getItem(Guid id)
         {
             return await _context.Items.Where(x => x.Id == id).ProjectTo<ItemDto>(_mapper.ConfigurationProvider).FirstAsync();
