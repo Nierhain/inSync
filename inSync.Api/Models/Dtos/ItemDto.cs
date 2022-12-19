@@ -1,10 +1,10 @@
 ﻿using System;
-namespace inSync.Core.Models
+namespace inSync.Api.Models.Dtos
 {
-	public class Item
+	public class ItemDto
 	{
-		public Guid Id { get; set; }
 		public string ResourceKey { get; set; } = string.Empty;
 		public int Amount { get; set; }
 	}
 }
+

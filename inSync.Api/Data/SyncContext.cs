@@ -1,4 +1,5 @@
 ﻿using System;
+using inSync.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace inSync.Api.Data
@@ -9,7 +10,8 @@ namespace inSync.Api.Data
 		{
 		}
 
-		
+		public virtual DbSet<Item> Items { get; set; }
+		public virtual DbSet<ItemList> ItemLists { get; set; }
 	}
 }
 
