@@ -21,16 +21,16 @@ namespace inSync.Api.Queries
 
     public class GetItemsValidator : IValidationHandler<GetItems>
     {
-        private readonly IConfiguration _config;
+        private readonly string _adminKey;
 
         public GetItemsValidator(IConfiguration config)
         {
-            _config = config;
+            _adminKey = config.GetValue<string>("AdminKey");
         }
 
         public async Task<ValidationResult> Validate(GetItems request)
         {
-            if (request.AdminKey != _config.GetValue<string>("AdminKey")) return ValidationResult.Fail("Wrong AdminKey");
+            if (request.AdminKey != _adminKey) return ValidationResult.Fail("Wrong AdminKey");
             return ValidationResult.Success;
         }
     }
