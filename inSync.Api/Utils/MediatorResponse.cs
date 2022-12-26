@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Net;
 
 namespace inSync.Api.Utils
@@ -16,6 +16,11 @@ namespace inSync.Api.Utils
         public static Response<T> OK(T data)
         {
             return new() { Data = data};
+        }
+
+        public static Response<bool> Created()
+        {
+            return new Response<bool>() { Data = true, StatusCode = HttpStatusCode.Created, ErrorMessage = ""};
         }
 
         public static Response<T> BadRequest(string message)
