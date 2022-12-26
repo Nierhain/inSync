@@ -32,6 +32,8 @@ namespace inSync.Api.Registration
                 config.AddCollectionMappers();
                 config.UseEntityFrameworkCoreModel<SyncContext>(services);
             }, typeof(Program));
+            services.AddScoped<IDbRepository, DbRepository>();
+            services.AddScoped<ICryptoRepository, CryptoRepository>();
             return services;
         }
 
