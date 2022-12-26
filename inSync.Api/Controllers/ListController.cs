@@ -1,5 +1,5 @@
-﻿using inSync.Api.Domain.Commands;
-using inSync.Api.Domain.Queries;
+﻿using inSync.Api.Domain.Commands.User;
+using inSync.Api.Domain.Queries.User;
 using inSync.Api.Models.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -7,13 +7,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace inSync.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/lists")]
 public class ListController : ControllerBase
 {
     private readonly IMediator _mediator;
     public ListController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetListsForUser(string username, CancellationToken token)
+    {
+        return Ok(await _mediator.Send(new GetUserLists(username), token));
     }
 
     [HttpGet("{id:guid}")]
@@ -26,5 +32,11 @@ public class ListController : ControllerBase
     public async Task<IActionResult> CreateList(ItemListRequest request, CancellationToken token)
     {
         return Ok(await _mediator.Send(new CreateItemList(request), token));
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateList(UpdateListRequest request, CancellationToken token)
+    {
+        return Ok(await _mediator.Send(new UpdateItemList(request.Id, request.Password, request.ItemList), token));
     }
 }

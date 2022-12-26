@@ -11,6 +11,7 @@ namespace inSync.Api.Registration
 		{
 			CreateMap<ItemList, ItemListDto>().ReverseMap();
 			CreateMap<Item, ItemDto>().ReverseMap();
+			CreateMap<ItemList, ItemListOverviewDto>().ReverseMap();
 		}
 	}
 }

@@ -18,71 +18,77 @@ namespace inSync.Api.Data
             _mapper = mapper;
         }
 
-        public async Task createItem(Item item)
+        public async Task CreateItem(Item item)
         {
             await _context.Items.AddAsync(item);
             await save();
         }
 
-        public async Task createItemList(ItemList itemList)
+        public async Task CreateItemList(ItemList itemList)
         {
             await _context.ItemLists.AddAsync(itemList);
             await save();
         }
 
-        public async void deleteItem(Guid id)
+        public async Task DeleteItem(Guid id)
         {
             var item = await _context.Items.FirstAsync(x => x.Id == id);
             _context.Items.Remove(item);
             await save();
         }
 
-        public async void deleteItemList(Guid id)
+        public async Task DeleteItemList(Guid id)
         {
             var list = await _context.ItemLists.FirstAsync(x => x.Id == id);
             _context.ItemLists.Remove(list);
             await save();
         }
 
-        public async Task<bool> exists<T>(Guid id) where T : class, IEntity
+        public async Task<bool> Exists<T>(Guid id) where T : class, IEntity
         {
             return await _context.Set<T>().AnyAsync(x => x.Id == id);
         }
 
-        public async Task<ItemDto> getItem(Guid id)
+        public async Task<bool> ExistsForUser(string username)
+        {
+            return await _context.ItemLists.AnyAsync(x => x.Username == username);
+        }
+
+        public async Task<ItemDto> GetItem(Guid id)
         {
             return await _context.Items.Where(x => x.Id == id).ProjectTo<ItemDto>(_mapper.ConfigurationProvider).FirstAsync();
         }
 
-        public async Task<ItemListDto> getItemList(Guid id)
+        public async Task<ItemListDto> GetItemList(Guid id)
         {
             return await _context.ItemLists.Where(x => x.Id == id).ProjectTo<ItemListDto>(_mapper.ConfigurationProvider).FirstAsync();
         }
 
-        public async Task<List<ItemListDto>> getItemLists()
+        public async Task<List<ItemListOverviewDto>> GetLists()
         {
-            return await _context.ItemLists.ProjectTo<ItemListDto>(_mapper.ConfigurationProvider).ToListAsync();
+            return await _context.ItemLists.ProjectTo<ItemListOverviewDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public async Task<List<ItemDto>> getItems()
+        public async Task<List<ItemListOverviewDto>> GetListsForUser(string username)
+        {
+            return await _context.ItemLists.ProjectTo<ItemListOverviewDto>(_mapper.ConfigurationProvider).Where(x => x.Username == username)
+                .ToListAsync();
+        }
+
+        public async Task<List<ItemDto>> GetItems()
         {
             return await _context.Items.ProjectTo<ItemDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public async Task<List<ItemListDto>> getListsForUser(string username)
+        public async Task UpdateItem(Guid id, ItemDto item)
         {
-            return await _context.ItemLists.Where(x => x.Username == username).ProjectTo<ItemListDto>(_mapper.ConfigurationProvider).ToListAsync();
-        }
-
-        public async void updateItem(Guid id, ItemDto item)
-        {
-            await _context.Items.Persist(_mapper).InsertOrUpdateAsync<ItemDto>(item);
+            await _context.Items.Persist(_mapper).InsertOrUpdateAsync(item);
             await save();
         }
 
-        public async void updateItemList(Guid id, ItemListDto itemList)
+        public async Task UpdateItemList(Guid id, ItemListDto itemList)
         {
-            await _context.ItemLists.Persist(_mapper).InsertOrUpdateAsync<ItemListDto>(itemList);
+            await _context.ItemLists.Persist(_mapper).InsertOrUpdateAsync(itemList);
             await save();
         }
 

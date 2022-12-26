@@ -6,23 +6,22 @@ namespace inSync.Api.Data
 {
 	public interface IDbRepository
 	{
-		Task<ItemListDto> getItemList(Guid id);
-		Task<ItemDto> getItem(Guid id);
-		Task<List<ItemListDto>> getItemLists();
-		Task<List<ItemDto>> getItems();
+		Task<ItemListDto> GetItemList(Guid id);
+		Task<ItemDto> GetItem(Guid id);
+		Task<List<ItemListOverviewDto>> GetLists();
+		Task<List<ItemListOverviewDto>> GetListsForUser(string username);
 
-		Task<List<ItemListDto>> getListsForUser(string username);
+		Task CreateItemList(ItemList itemList);
+		Task CreateItem(Item item);
 
-		Task createItemList(ItemList itemList);
-		Task createItem(Item item);
+		Task UpdateItemList(Guid id, ItemListDto itemList);
+		Task UpdateItem(Guid id, ItemDto item);
 
-		void updateItemList(Guid id, ItemListDto itemList);
-		void updateItem(Guid id, ItemDto item);
+		Task DeleteItem(Guid id);
+		Task DeleteItemList(Guid id);
 
-		void deleteItem(Guid id);
-		void deleteItemList(Guid id);
-
-		Task<bool> exists<T>(Guid id) where T : class, IEntity;
+		Task<bool> Exists<T>(Guid id) where T : class, IEntity;
+		Task<bool> ExistsForUser(string username);
 	}
 }
 

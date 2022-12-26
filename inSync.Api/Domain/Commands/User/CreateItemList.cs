@@ -6,7 +6,7 @@ using inSync.Api.Validation;
 using inSync.Core.Models;
 using MediatR;
 
-namespace inSync.Api.Domain.Commands;
+namespace inSync.Api.Domain.Commands.User;
 
 public class CreateItemList : IRequest<Response<bool>>
 {
@@ -54,7 +54,7 @@ public class CreateItemListHandler : IRequestHandler<CreateItemList, Response<bo
         byte[] hash;
         byte[] salt;
         Crypto.CreateHash(request.Password, out hash, out salt);
-        var list = new ItemList()
+        var list = new ItemList
         {
           PasswordHash = hash,
           PasswordSalt = salt,
@@ -63,7 +63,7 @@ public class CreateItemListHandler : IRequestHandler<CreateItemList, Response<bo
           Username = request.Username
         };
         list.Items = _mapper.Map(request.Items, list.Items);
-        await _repository.createItemList(list);
+        await _repository.CreateItemList(list);
 
         return Response<bool>.Created();
     }

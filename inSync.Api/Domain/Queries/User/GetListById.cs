@@ -5,7 +5,7 @@ using inSync.Api.Validation;
 using inSync.Core.Models;
 using MediatR;
 
-namespace inSync.Api.Domain.Queries
+namespace inSync.Api.Domain.Queries.User
 {
 	public class GetListById : IRequest<Response<ItemListDto>>
 	{
@@ -31,7 +31,7 @@ namespace inSync.Api.Domain.Queries
 
         public async Task<ValidationResult> Validate(GetListById request)
         {
-            if (!await _repository.exists<ItemList>(request.Id))
+            if (!await _repository.Exists<ItemList>(request.Id))
             {
                 return ValidationResult.Fail("List not found");
             } 
@@ -54,7 +54,7 @@ namespace inSync.Api.Domain.Queries
 
         public async Task<Response<ItemListDto>> Handle(GetListById request, CancellationToken cancellationToken)
         {
-            var list = await _repository.getItemList(request.Id);
+            var list = await _repository.GetItemList(request.Id);
             return Response<ItemListDto>.OK(list);
         }
     }

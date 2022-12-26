@@ -4,9 +4,9 @@ using inSync.Api.Utils;
 using inSync.Api.Validation;
 using MediatR;
 
-namespace inSync.Api.Domain.Queries
+namespace inSync.Api.Domain.Queries.Admin
 {
-	public class GetLists : IRequest<Response<List<ItemListDto>>>
+	public class GetLists : IRequest<Response<List<ItemListOverviewDto>>>
 	{
 		public string AdminKey {get; set; }
 
@@ -16,7 +16,7 @@ namespace inSync.Api.Domain.Queries
         }
     }
 
-    public class GetListsValidator : IValidationHandler<GetItems>
+    public class GetListsValidator : IValidationHandler<GetLists>
     {
         private readonly IConfiguration _config;
 
@@ -25,14 +25,14 @@ namespace inSync.Api.Domain.Queries
             _config = config;
         }
 
-        public async Task<ValidationResult> Validate(GetItems request)
+        public async Task<ValidationResult> Validate(GetLists request)
         {
             if (request.AdminKey != _config.GetValue<string>("AdminKey")) return ValidationResult.Fail("Wrong AdminKey");
             return ValidationResult.Success;
         }
     }
 
-    public class GetListsHandler : IRequestHandler<GetLists, Response<List<ItemListDto>>>
+    public class GetListsHandler : IRequestHandler<GetLists, Response<List<ItemListOverviewDto>>>
     {
         private readonly IDbRepository _repository;
 
@@ -41,10 +41,10 @@ namespace inSync.Api.Domain.Queries
             _repository = repository;
         }
 
-        public async Task<Response<List<ItemListDto>>> Handle(GetLists request, CancellationToken cancellationToken)
+        public async Task<Response<List<ItemListOverviewDto>>> Handle(GetLists request, CancellationToken cancellationToken)
         {
-            var lists = await _repository.getItemLists();
-            return Response<List<ItemListDto>>.OK(lists);
+            var lists = await _repository.GetLists();
+            return Response<List<ItemListOverviewDto>>.OK(lists);
         }
     }
 }
