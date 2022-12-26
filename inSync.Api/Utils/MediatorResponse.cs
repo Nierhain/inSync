@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 
 namespace inSync.Api.Utils
@@ -9,7 +9,7 @@ namespace inSync.Api.Utils
         public string ErrorMessage { get; set; } = string.Empty;
     }
 
-    public class Response<T> : MediatorResponse where T : class, new()
+    public class Response<T> : MediatorResponse where T : new()
     {
         public T Data { get; set; } = new();
 
