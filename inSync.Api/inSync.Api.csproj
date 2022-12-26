@@ -107,7 +107,6 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Data\" />
-    <Folder Include="Domain\Commands\Admin" />
     <Folder Include="Validation\" />
     <Folder Include="Registration\" />
     <Folder Include="Utils\" />

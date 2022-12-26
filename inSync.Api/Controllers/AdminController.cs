@@ -1,4 +1,5 @@
-﻿using inSync.Api.Domain.Queries.Admin;
+﻿using inSync.Api.Domain.Commands.Admin;
+using inSync.Api.Domain.Queries.Admin;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,4 +33,18 @@ public class AdminController : ControllerBase
     {
         return Ok(await _mediator.Send(new GetListsForUser(username, adminKey), token));
     }
+
+    [HttpPut("lock")]
+    public async Task<IActionResult> LockList(ListLock request, CancellationToken token)
+    {
+        return Ok(await _mediator.Send(new LockList(request.Id, request.AdminKey, request.Reason, request.IsLocked), token));
+    }
+}
+
+public class ListLock
+{
+    public Guid Id { get; set; }
+    public string AdminKey { get; set; }
+    public string Reason { get; set; }
+    public bool IsLocked { get; set; }
 }

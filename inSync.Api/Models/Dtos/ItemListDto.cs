@@ -10,6 +10,8 @@ namespace inSync.Api.Models.Dtos
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public bool IsActive { get; set; }
+		public bool IsLockedByAdmin { get; set; }
+		public string LockReason { get; set; }
 	}
 	
 	public class ItemListOverviewDto
