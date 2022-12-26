@@ -10,6 +10,11 @@ namespace inSync.Api.Data
 		{
 		}
 
+		public SyncContext(DbContextOptions options) : base(options)
+		{
+			
+		}
+
 		public virtual DbSet<Item> Items { get; set; }
 		public virtual DbSet<ItemList> ItemLists { get; set; }
 	}
