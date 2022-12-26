@@ -1,13 +1,10 @@
-﻿using System;
-using System.Configuration;
-using inSync.Api.Data;
+﻿using inSync.Api.Data;
 using inSync.Api.Models.Dtos;
 using inSync.Api.Utils;
 using inSync.Api.Validation;
-using inSync.Core.Models;
 using MediatR;
 
-namespace inSync.Api.Queries
+namespace inSync.Api.Domain.Queries
 {
 	public class GetItems : IRequest<Response<List<ItemDto>>>
 	{

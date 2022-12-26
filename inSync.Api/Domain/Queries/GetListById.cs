@@ -1,12 +1,11 @@
-﻿using System;
-using inSync.Api.Data;
+﻿using inSync.Api.Data;
 using inSync.Api.Models.Dtos;
 using inSync.Api.Utils;
 using inSync.Api.Validation;
 using inSync.Core.Models;
 using MediatR;
 
-namespace inSync.Api.Queries
+namespace inSync.Api.Domain.Queries
 {
 	public class GetListById : IRequest<Response<ItemListDto>>
 	{
@@ -23,16 +22,23 @@ namespace inSync.Api.Queries
     public class GetListByIdValidator : IValidationHandler<GetListById>
     {
         private readonly IDbRepository _repository;
-
-        public GetListByIdValidator(IDbRepository repository)
+        private readonly ICryptoRepository _crypto;
+        public GetListByIdValidator(IDbRepository repository, ICryptoRepository crypto)
         {
             _repository = repository;
+            _crypto = crypto;
         }
 
         public async Task<ValidationResult> Validate(GetListById request)
         {
-            var list = await _repository.getItemList(request.Id);
-            if(Crypto.VerifyHash(request.Password, list.))
+            if (!await _repository.exists<ItemList>(request.Id))
+            {
+                return ValidationResult.Fail("List not found");
+            } 
+            if (!await _crypto.VerifyHash(request.Id, request.Password))
+            {
+                return ValidationResult.Fail("not authorized");
+            }
             return ValidationResult.Success;
         }
     }

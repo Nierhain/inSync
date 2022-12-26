@@ -1,10 +1,9 @@
-﻿using System;
-using inSync.Api.Data;
+﻿using inSync.Api.Data;
 using inSync.Api.Models.Dtos;
 using inSync.Api.Utils;
 using MediatR;
 
-namespace inSync.Api.Queries
+namespace inSync.Api.Domain.Queries
 {
 	public class GetListsForUser: IRequest<Response<List<ItemListDto>>>
 	{
