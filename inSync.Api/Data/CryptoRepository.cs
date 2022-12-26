@@ -1,8 +1,7 @@
 ﻿using System.Security.Cryptography;
-using inSync.Api.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace inSync.Api.Utils;
+namespace inSync.Api.Data;
 
 public class CryptoRepository : ICryptoRepository
 {
