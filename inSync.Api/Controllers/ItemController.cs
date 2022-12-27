@@ -25,14 +25,8 @@ public class ItemController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> UpdateMinecraftItems(MinecraftItemUpdate request, CancellationToken token)
+    public async Task<IActionResult> UpdateMinecraftItems(List<MinecraftItemDto> items, [FromHeader] string adminKey, CancellationToken token)
     {
-        return Ok(await _mediator.Send( new UpdateMinecraftItems(request), token));
+        return Ok(await _mediator.Send( new UpdateMinecraftItems(items, adminKey), token));
     }
-}
-
-public class MinecraftItemUpdate
-{
-    public List<MinecraftItemDto> Items { get; set; } = new();
-    public string AdminKey { get; set; } = string.Empty;
 }

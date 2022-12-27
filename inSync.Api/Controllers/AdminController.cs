@@ -25,28 +25,28 @@ public class AdminController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(typeof(Response<bool>), 200)]
-    public async Task<IActionResult> GetIsAdmin([FromBody] string adminKey, CancellationToken token)
+    public async Task<IActionResult> GetIsAdmin([FromHeader] string adminKey, CancellationToken token)
     {
         return Ok(await _mediator.Send(new VerifyAdminKey(adminKey), token));
     }
 
     [HttpGet("lists")]
     [ProducesResponseType(typeof(Response<List<ItemListOverview>>), 200)]
-    public async Task<IActionResult> GetAllLists([FromBody] string adminKey, CancellationToken token)
+    public async Task<IActionResult> GetAllLists([FromHeader] string adminKey, CancellationToken token)
     {
         return Ok(await _mediator.Send(new GetLists(adminKey), token));
     }
 
     [HttpGet("lists/{id:guid}")]
     [ProducesResponseType(typeof(Response<ItemListDto>), 200)]
-    public async Task<IActionResult> GetList(Guid id, [FromBody] string adminKey, CancellationToken token)
+    public async Task<IActionResult> GetList(Guid id, [FromHeader] string adminKey, CancellationToken token)
     {
         return Ok(await _mediator.Send(new GetListById(id, adminKey), token));
     }
 
     [HttpGet("lists/user/{username}")]
     [ProducesResponseType(typeof(Response<List<ItemListOverview>>), 200)]
-    public async Task<IActionResult> GetListsForUser(string username, [FromBody] string adminKey,
+    public async Task<IActionResult> GetListsForUser(string username, [FromHeader] string adminKey,
         CancellationToken token)
     {
         return Ok(await _mediator.Send(new GetListsForUser(username, adminKey), token));
@@ -54,9 +54,9 @@ public class AdminController : ControllerBase
 
     [HttpPut("lists/lock")]
     [ProducesResponseType(typeof(Response<bool>), 200)]
-    public async Task<IActionResult> LockList(ListLock request, CancellationToken token)
+    public async Task<IActionResult> LockList(ListLock request, [FromHeader] string adminKey, CancellationToken token)
     {
-        return Ok(await _mediator.Send(new LockList(request.Id, request.AdminKey, request.Reason, request.IsLocked),
+        return Ok(await _mediator.Send(new LockList(request.Id, adminKey, request.Reason, request.IsLocked),
             token));
     }
 }
@@ -64,7 +64,6 @@ public class AdminController : ControllerBase
 public class ListLock
 {
     public Guid Id { get; set; }
-    public string AdminKey { get; set; } = string.Empty;
     public string Reason { get; set; } = string.Empty;
     public bool IsLocked { get; set; }
 }

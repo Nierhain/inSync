@@ -1,5 +1,4 @@
-﻿using inSync.Api.Controllers;
-using inSync.Api.Data;
+﻿using inSync.Api.Data;
 using inSync.Api.Models.Dtos;
 using inSync.Api.Utils;
 using inSync.Api.Validation;
@@ -9,10 +8,10 @@ namespace inSync.Api.Domain.Commands.Admin;
 
 public class UpdateMinecraftItems : IRequest<Response<List<MinecraftItemDto>>>
 {
-    public UpdateMinecraftItems(MinecraftItemUpdate request)
+    public UpdateMinecraftItems(List<MinecraftItemDto> items, string adminKey)
     {
-        Items = request.Items;
-        AdminKey = request.AdminKey;
+        Items = items;
+        AdminKey = adminKey;
     }
 
     public List<MinecraftItemDto> Items { get; set; }

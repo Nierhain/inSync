@@ -2,6 +2,7 @@
 
 using inSync.Api.Data;
 using inSync.Api.Models.Dtos;
+using inSync.Api.Models.Requests;
 using inSync.Api.Utils;
 using inSync.Api.Validation;
 using inSync.Core.Models;
@@ -13,10 +14,10 @@ namespace inSync.Api.Domain.Commands.User;
 
 public class UpdateItemList : IRequest<Response<bool>>
 {
-    public UpdateItemList(UpdateListRequest request)
+    public UpdateItemList(UpdateListRequest request, string password)
     {
         Id = request.Id;
-        Password = request.Password;
+        Password = password;
         ItemList = request.ItemList;
     }
 

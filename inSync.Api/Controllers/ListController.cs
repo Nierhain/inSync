@@ -3,6 +3,7 @@
 using inSync.Api.Domain.Commands.User;
 using inSync.Api.Domain.Queries.User;
 using inSync.Api.Models.Dtos;
+using inSync.Api.Models.Requests;
 using inSync.Api.Utils;
 using inSync.Core.Models;
 using MediatR;
@@ -32,23 +33,23 @@ public class ListController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    [ProducesResponseType(typeof(Response<ItemList>), 200)]
-    public async Task<IActionResult> GetList(Guid id, [FromQuery] string password, CancellationToken token)
+    [ProducesResponseType(typeof(Response<ItemListDto>), 200)]
+    public async Task<IActionResult> GetList(Guid id, [FromHeader] string password, CancellationToken token)
     {
         return Ok(await _mediator.Send(new GetListById(id, password), token));
     }
 
     [HttpPost]
     [ProducesResponseType(typeof(Response<Guid>), 200)]
-    public async Task<IActionResult> CreateList(ItemListRequest request, CancellationToken token)
+    public async Task<IActionResult> CreateList(ItemListRequest request, [FromHeader] string password, CancellationToken token)
     {
-        return Ok(await _mediator.Send(new CreateItemList(request), token));
+        return Ok(await _mediator.Send(new CreateItemList(request, password), token));
     }
 
     [HttpPut]
     [ProducesResponseType(typeof(Response<bool>), 200)]
-    public async Task<IActionResult> UpdateList(UpdateListRequest request, CancellationToken token)
+    public async Task<IActionResult> UpdateList(UpdateListRequest request, [FromHeader] string password, CancellationToken token)
     {
-        return Ok(await _mediator.Send(new UpdateItemList(request), token));
+        return Ok(await _mediator.Send(new UpdateItemList(request, password), token));
     }
 }

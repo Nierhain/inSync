@@ -4,6 +4,7 @@ using AutoMapper;
 using AutoMapper.EntityFrameworkCore;
 using AutoMapper.QueryableExtensions;
 using inSync.Api.Models.Dtos;
+using inSync.Api.Models.Requests;
 using inSync.Core.Models;
 using Microsoft.EntityFrameworkCore;
 

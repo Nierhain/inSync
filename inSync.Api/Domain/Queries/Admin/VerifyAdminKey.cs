@@ -1,6 +1,7 @@
 ﻿#region
 
 using inSync.Api.Utils;
+using inSync.Api.Validation;
 using MediatR;
 
 #endregion
@@ -15,6 +16,14 @@ public class VerifyAdminKey : IRequest<Response<bool>>
     }
 
     public string AdminKey { get; set; }
+}
+
+public class VerifyAdminKeyValidation : IValidationHandler<VerifyAdminKey>
+{
+    public Task<ValidationResult> Validate(VerifyAdminKey request)
+    {
+        return Task.FromResult(ValidationResult.Success);
+    }
 }
 
 public class VerifyAdminKeyHandler : IRequestHandler<VerifyAdminKey, Response<bool>>

@@ -3,6 +3,7 @@
 using AutoMapper;
 using inSync.Api.Data;
 using inSync.Api.Models.Dtos;
+using inSync.Api.Models.Requests;
 using inSync.Api.Utils;
 using inSync.Api.Validation;
 using inSync.Core.Models;
@@ -14,9 +15,9 @@ namespace inSync.Api.Domain.Commands.User;
 
 public class CreateItemList : IRequest<Response<Guid>>
 {
-    public CreateItemList(ItemListRequest request)
+    public CreateItemList(ItemListRequest request, string password)
     {
-        Password = request.Password;
+        Password = password;
         Username = request.Username;
         Items = request.Items;
     }

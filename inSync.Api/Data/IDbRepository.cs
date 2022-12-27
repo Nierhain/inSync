@@ -1,6 +1,7 @@
 ﻿#region
 
 using inSync.Api.Models.Dtos;
+using inSync.Api.Models.Requests;
 using inSync.Core.Models;
 
 #endregion
