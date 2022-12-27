@@ -1,14 +1,16 @@
 import { createReactRouter, createRouteConfig, Outlet, RouterProvider } from '@tanstack/react-router';
 import { useState } from 'react';
-import { Col, Layout, Menu, Row, Space, theme } from 'antd';
+import { Col, Input, Layout, Menu, Row, Space, theme } from 'antd';
 import Navigation from './components/Navigation';
 import Lists from './pages/Lists';
 import ThemeToggler from './components/ThemeToggler';
+import { useStore } from './store/store';
 
 const { Content, Header, Sider, Footer } = Layout;
 
 export default function App() {
     const [collapsed, setCollapsed] = useState<boolean>(false);
+    const { setUsername, setAdminKey } = useStore();
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -23,10 +25,18 @@ export default function App() {
             </Sider>
             <Layout>
                 <Header style={{ padding: 0, background: colorBgContainer }}>
-                    <Row style={{padding: "8px"}}>
-                        <Col>
-                        <ThemeToggler />
-                        </Col>
+                    <Row style={{ padding: '8px' }}>
+                        <Space direction="horizontal">
+                            <ThemeToggler />
+                            <Input
+                                placeholder="Username"
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                            <Input
+                                placeholder="Admin key"
+                                onChange={(e) => setAdminKey(e.target.value)}
+                            />
+                        </Space>
                     </Row>
                 </Header>
                 <Content style={{ padding: '16px 16px' }}>
