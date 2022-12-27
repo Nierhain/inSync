@@ -1,21 +1,13 @@
 import { createReactRouter, createRouteConfig, Outlet, RouterProvider } from '@tanstack/react-router';
 import { useState } from 'react';
-import { Layout, Menu, theme } from 'antd';
+import { Col, Layout, Menu, Row, Space, theme } from 'antd';
 import Navigation from './components/Navigation';
+import Lists from './pages/Lists';
+import ThemeToggler from './components/ThemeToggler';
 
 const { Content, Header, Sider, Footer } = Layout;
-const rootRoute = createRouteConfig({
-    component: App,
-});
 
-const indexRoute = rootRoute.createRoute({ path: '/' });
-const listRoute = rootRoute.createRoute({ path: 'lists' });
-const singleListRoute = listRoute.createRoute({ path: '$id' });
-
-const routeConfig = rootRoute.addChildren([indexRoute, listRoute.addChildren([singleListRoute])]);
-
-export const router = createReactRouter({ routeConfig });
-function App() {
+export default function App() {
     const [collapsed, setCollapsed] = useState<boolean>(false);
     const {
         token: { colorBgContainer },
@@ -30,8 +22,14 @@ function App() {
                 <Navigation />
             </Sider>
             <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }}></Header>
-                <Content>
+                <Header style={{ padding: 0, background: colorBgContainer }}>
+                    <Row style={{padding: "8px"}}>
+                        <Col>
+                        <ThemeToggler />
+                        </Col>
+                    </Row>
+                </Header>
+                <Content style={{ padding: '16px 16px' }}>
                     <Outlet />
                 </Content>
             </Layout>

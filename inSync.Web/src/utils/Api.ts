@@ -1,15 +1,64 @@
-const baseUrl = '/api';
-const userUrl = baseUrl + '/lists';
-const adminUrl = baseUrl + '/admin';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { Response, ItemList, ResponseType, ItemListRequest, UpdateListRequest, LockRequest } from '../models';
+import { isDev } from './EnvChecks';
+
+const logRequest = (config: AxiosRequestConfig<Response<ResponseType>>) => {
+    if (isDev) {
+        console.log(`HTTP Request ${config.method} ${config.url}`);
+    }
+    return config;
+};
+
+const logError = (error: AxiosError<Response<ResponseType>>) => {
+    if (!error.response && !error.request) {
+        console.log("ERROR: axios couldn't handle the request");
+        return;
+    }
+    if (isDev) {
+        console.log(
+            `ERROR: Request ${error.response?.config.url} failed with StatusCode ${error.response?.data.statusCode}
+            \n Cause: ${error.response?.data.errorMessage}`
+        );
+    }
+    return error;
+};
+
+const logResponse = (response: AxiosResponse<Response<ResponseType>>) => {
+    if (isDev) {
+        console.log(
+            `HTTP Request ${response.config.url} completed with StatusCode ${response.data.statusCode} \n Response:`
+        );
+        console.log(response.data.data);
+    }
+    return response;
+};
+
+const instance = axios.create({
+    baseURL: '/api/',
+});
+
+instance.interceptors.request.use(logRequest, logError);
+instance.interceptors.response.use(logResponse, logError);
+
+const requests = {
+    get: <T extends ResponseType>(url: string) => instance.get<Response<ResponseType>>(url).then((res) => res.data),
+    post: <T extends ResponseType>(url: string, data: any) => instance.post(url, data).then((res) => res.data),
+    put: <T extends ResponseType>(url: string, data: any) =>
+        instance.put<Response<T>>(url, data).then((res) => res.data),
+};
 
 export const UserApi = {
-    loadLists: () => fetch(baseUrl + '/lists').then(),
-    loadListsForUser: (username: string) => fetch(baseUrl + '/lists?username=' + username).then(),
+    loadListsForUser: (username: string) => requests.get<ItemList[]>(`lists/${username}`),
+    loadList: (id: string, password: string) => requests.get<ItemList>(`lists/${id}?password=${password}`),
+    createList: (list: ItemListRequest) => requests.post<string>(`lists`, list),
+    updateList: (list: UpdateListRequest) => requests.put<boolean>(`lists`, list),
 };
 
 export const AdminApi = {
-    loadLists: (adminKey: string) => fetch(adminUrl + "/lists?adminKey=" + adminKey).then(),
-    loadListsForUser: (username: string) => fetch(adminUrl + "/lists/" + username).then()
+    verifyAdminKey: (adminKey: string) => requests.get<boolean>(`admin?adminKey=${adminKey}`),
+    loadLists: (adminKey: string) => requests.get<ItemList[]>('admin/lists?adminKey=' + adminKey),
+    loadList: (id: string, adminKey: string) => requests.get(`admin/lists/${id}?adminKey=${adminKey}`),
+    loadListsForUser: (username: string, adminKey: string) =>
+        requests.get<ItemList[]>(`admin/lists/user/${username}?adminKey=${adminKey}`),
+    lockList: (lock: LockRequest) => requests.put<boolean>('admin/lists/lock', lock),
 };
-
-
