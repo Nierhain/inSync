@@ -25,7 +25,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0-silver.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -116,7 +116,6 @@
     <Folder Include="Domain\" />
     <Folder Include="Domain\Commands\" />
     <Folder Include="Domain\Queries\" />
-    <Folder Include="Domain\Validations\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\inSync.Core\inSync.Core.csproj">

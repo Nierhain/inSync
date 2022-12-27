@@ -1,5 +1,10 @@
-﻿using System.Security.Cryptography;
+﻿#region
+
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
+
+#endregion
 
 namespace inSync.Api.Data;
 
@@ -16,8 +21,7 @@ public class CryptoRepository : ICryptoRepository
     {
         var list = await _context.ItemLists.Where(x => x.Id == id).FirstAsync();
         using var hmac = new HMACSHA512(list.PasswordSalt);
-        var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
         return computedHash.SequenceEqual(list.PasswordHash);
     }
-
 }

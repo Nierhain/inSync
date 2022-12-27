@@ -1,24 +1,28 @@
-﻿using inSync.Api.Data;
+﻿#region
+
+using inSync.Api.Data;
 using inSync.Api.Models.Dtos;
 using inSync.Api.Utils;
 using inSync.Api.Validation;
 using inSync.Core.Models;
 using MediatR;
 
+#endregion
+
 namespace inSync.Api.Domain.Commands.User;
 
 public class UpdateItemList : IRequest<Response<bool>>
 {
-    public UpdateItemList(Guid id, string password, ItemListDto itemList)
+    public UpdateItemList(UpdateListRequest request)
     {
-        Id = id;
-        Password = password;
-        ItemList = itemList;
+        Id = request.Id;
+        Password = request.Password;
+        ItemList = request.ItemList;
     }
 
     public Guid Id { get; set; }
     public string Password { get; set; }
-    public ItemListDto ItemList { get; set; }
+    public ItemListUpdate ItemList { get; set; }
 }
 
 public class UpdateItemListValidator : IValidationHandler<UpdateItemList>
@@ -34,14 +38,11 @@ public class UpdateItemListValidator : IValidationHandler<UpdateItemList>
 
     public async Task<ValidationResult> Validate(UpdateItemList request)
     {
-        if (!await _crypto.VerifyHash(request.Id, request.Password))
-        {
-            return ValidationResult.Fail("wrong password");
-        }
-        if (!await _repository.Exists<ItemList>(request.Id))
-        {
-            return ValidationResult.Fail("List does not exist");
-        }
+        if (!await _crypto.VerifyHash(request.Id, request.Password)) return ValidationResult.Fail("wrong password");
+        if (!await _repository.Exists<ItemList>(request.Id)) return ValidationResult.Fail("List does not exist");
+
+        var list = await _repository.GetItemList(request.Id);
+        if (list.IsLockedByAdmin) return ValidationResult.Fail("List is locked by admin");
         return ValidationResult.Success;
     }
 }

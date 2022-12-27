@@ -1,12 +1,16 @@
-﻿using inSync.Api.Data;
+﻿#region
+
+using inSync.Api.Data;
 using inSync.Api.Models.Dtos;
 using inSync.Api.Utils;
 using inSync.Api.Validation;
 using MediatR;
 
+#endregion
+
 namespace inSync.Api.Domain.Queries.Admin;
 
-public class GetListsForUser : IRequest<Response<List<ItemListOverviewDto>>>
+public class GetListsForUser : IRequest<Response<List<ItemListOverview>>>
 {
     public GetListsForUser(string username, string adminKey)
     {
@@ -27,17 +31,14 @@ public class GetListsForUserValidator : IValidationHandler<GetListsForUser>
         _config = config;
     }
 
-    public async Task<ValidationResult> Validate(GetListsForUser request)
+    public Task<ValidationResult> Validate(GetListsForUser request)
     {
-        if (request.AdminKey != _config["AdminKey"])
-        {
-            return ValidationResult.Fail("Wrong AdminKey");
-        }
-        return ValidationResult.Success;
+        if (request.AdminKey != _config["AdminKey"]) return Task.FromResult(ValidationResult.Fail("Wrong AdminKey"));
+        return Task.FromResult(ValidationResult.Success);
     }
 }
 
-public class GetListsForUserHandler : IRequestHandler<GetListsForUser, Response<List<ItemListOverviewDto>>>
+public class GetListsForUserHandler : IRequestHandler<GetListsForUser, Response<List<ItemListOverview>>>
 {
     private readonly IDbRepository _repository;
 
@@ -46,8 +47,9 @@ public class GetListsForUserHandler : IRequestHandler<GetListsForUser, Response<
         _repository = repository;
     }
 
-    public async Task<Response<List<ItemListOverviewDto>>> Handle(GetListsForUser request, CancellationToken cancellationToken)
+    public async Task<Response<List<ItemListOverview>>> Handle(GetListsForUser request,
+        CancellationToken cancellationToken)
     {
-        return Response<List<ItemListOverviewDto>>.OK(await _repository.GetListsForUser(request.Username));
+        return Response<List<ItemListOverview>>.OK(await _repository.GetListsForUser(request.Username));
     }
 }

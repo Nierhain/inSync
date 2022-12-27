@@ -1,9 +1,13 @@
-﻿using inSync.Api.Data;
+﻿#region
+
+using inSync.Api.Data;
 using inSync.Api.Models.Dtos;
 using inSync.Api.Utils;
 using inSync.Api.Validation;
 using inSync.Core.Models;
 using MediatR;
+
+#endregion
 
 namespace inSync.Api.Domain.Queries.Admin;
 
@@ -23,7 +27,7 @@ public class GetListByIdValidation : IValidationHandler<GetListById>
 {
     private readonly IConfiguration _config;
     private readonly IDbRepository _repository;
-    
+
     public GetListByIdValidation(IConfiguration config, IDbRepository repository)
     {
         _config = config;
@@ -32,15 +36,10 @@ public class GetListByIdValidation : IValidationHandler<GetListById>
 
     public async Task<ValidationResult> Validate(GetListById request)
     {
-        if (request.AdminKey != _config.GetValue<string>("AdminKey"))
-        {
-            return ValidationResult.Fail("Wrong AdminKey");
-        }
+        if (request.AdminKey != _config.GetValue<string>("AdminKey")) return ValidationResult.Fail("Wrong AdminKey");
 
         if (!await _repository.Exists<ItemList>(request.Id))
-        {
             return ValidationResult.Fail($"List with id [{request.Id}] does not exists");
-        }
         return ValidationResult.Success;
     }
 }

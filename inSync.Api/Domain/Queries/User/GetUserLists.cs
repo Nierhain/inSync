@@ -1,11 +1,15 @@
-﻿using inSync.Api.Data;
+﻿#region
+
+using inSync.Api.Data;
 using inSync.Api.Models.Dtos;
 using inSync.Api.Utils;
 using MediatR;
 
+#endregion
+
 namespace inSync.Api.Domain.Queries.User;
 
-public class GetUserLists : IRequest<Response<List<ItemListOverviewDto>>>
+public class GetUserLists : IRequest<Response<List<ItemListOverview>>>
 {
     public GetUserLists(string username)
     {
@@ -15,8 +19,7 @@ public class GetUserLists : IRequest<Response<List<ItemListOverviewDto>>>
     public string Username { get; set; }
 }
 
-
-public class GetUserListsHandler : IRequestHandler<GetUserLists, Response<List<ItemListOverviewDto>>>
+public class GetUserListsHandler : IRequestHandler<GetUserLists, Response<List<ItemListOverview>>>
 {
     private readonly IDbRepository _repository;
 
@@ -25,9 +28,10 @@ public class GetUserListsHandler : IRequestHandler<GetUserLists, Response<List<I
         _repository = repository;
     }
 
-    public async Task<Response<List<ItemListOverviewDto>>> Handle(GetUserLists request, CancellationToken cancellationToken)
+    public async Task<Response<List<ItemListOverview>>> Handle(GetUserLists request,
+        CancellationToken cancellationToken)
     {
         var lists = await _repository.GetListsForUser(request.Username);
-        return Response<List<ItemListOverviewDto>>.OK(lists);
+        return Response<List<ItemListOverview>>.OK(lists);
     }
 }

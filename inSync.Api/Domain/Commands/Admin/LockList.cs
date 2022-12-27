@@ -1,8 +1,12 @@
-﻿using inSync.Api.Data;
+﻿#region
+
+using inSync.Api.Data;
 using inSync.Api.Utils;
 using inSync.Api.Validation;
 using inSync.Core.Models;
 using MediatR;
+
+#endregion
 
 namespace inSync.Api.Domain.Commands.Admin;
 
@@ -35,15 +39,10 @@ public class LockListValidator : IValidationHandler<LockList>
 
     public async Task<ValidationResult> Validate(LockList request)
     {
-        if (request.AdminKey != _config["AdminKey"])
-        {
-            return ValidationResult.Fail("wrong AdminKey");
-        }
+        if (request.AdminKey != _config["AdminKey"]) return ValidationResult.Fail("wrong AdminKey");
 
         if (!await _repository.Exists<ItemList>(request.Id))
-        {
             return ValidationResult.Fail($"List with id [{request.Id}] does not exist");
-        }
         return ValidationResult.Success;
     }
 }

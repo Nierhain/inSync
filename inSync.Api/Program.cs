@@ -1,4 +1,8 @@
-﻿using inSync.Api.Registration;
+﻿#region
+
+using inSync.Api.Registration;
+
+#endregion
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,10 +27,7 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseSpa(spa =>
-    {
-        spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
-    });
+    app.UseSpa(spa => { spa.UseProxyToSpaDevelopmentServer("http://localhost:3000"); });
 }
 
 app.UseHttpsRedirection();
@@ -36,4 +37,3 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 app.Run();
-
