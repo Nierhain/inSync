@@ -6,7 +6,7 @@ import { Link } from '@tanstack/react-router';
 const items: ItemType[] = [
     { key: 'home', label: <Link to="/">Home</Link>, icon: <IconHome /> },
     { key: 'myLists', label: <Link to="/lists">My Lists</Link>, icon: <IconList /> },
-    { key: 'lists', label: <Link to="/userLists">User Lists</Link>, icon: <IconUser />},
+    { key: 'lists', label: <Link to="/users">User Lists</Link>, icon: <IconUser />},
     
 ];
 

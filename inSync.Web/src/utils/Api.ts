@@ -33,23 +33,41 @@ const logResponse = (response: AxiosResponse<Response<ResponseType>>) => {
     return response;
 };
 
+type HeaderType = 'admin' | 'user';
+
+const getHeader = (headerString: string, type: HeaderType) => {
+    const config: AxiosRequestConfig = {
+        headers: {
+            adminKey: type === 'admin' ? headerString : '',
+            password: type === 'user' ? headerString : '',
+        },
+    };
+    return config;
+};
+
 const instance = axios.create({
     baseURL: '/api/',
+    headers: {
+        adminKey: '',
+        password: '',
+    },
 });
 
 instance.interceptors.request.use(logRequest, logError);
 instance.interceptors.response.use(logResponse, logError);
 
 const requests = {
-    get: <T extends ResponseType>(url: string) => instance.get<Response<ResponseType>>(url).then((res) => res.data),
-    post: <T extends ResponseType>(url: string, data: any) => instance.post(url, data).then((res) => res.data),
-    put: <T extends ResponseType>(url: string, data: any) =>
-        instance.put<Response<T>>(url, data).then((res) => res.data),
+    get: <T extends ResponseType>(url: string, header: string = '', type: HeaderType = 'user') =>
+        instance.get<Response<ResponseType>>(url, getHeader(header, type)).then((res) => res.data),
+    post: <T extends ResponseType>(url: string, data: any, header: string = '', type: HeaderType = 'user') =>
+        instance.post(url, data, getHeader(header, type)).then((res) => res.data),
+    put: <T extends ResponseType>(url: string, data: any, header: string = '', type: HeaderType = 'user') =>
+        instance.put<Response<T>>(url, data, getHeader(header, type)).then((res) => res.data),
 };
 
 export const UserApi = {
     loadListsForUser: (username: string) => requests.get<ItemList[]>(`lists/${username}`),
-    loadList: (id: string, password: string) => requests.get<ItemList>(`lists/${id}?password=${password}`),
+    loadList: (id: string, password: string) => requests.get<ItemList>(`lists/${id}`, password),
     createList: (list: ItemListRequest) => requests.post<string>(`lists`, list),
     updateList: (list: UpdateListRequest) => requests.put<boolean>(`lists`, list),
 };

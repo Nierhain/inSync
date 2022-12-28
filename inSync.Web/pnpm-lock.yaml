@@ -4,28 +4,30 @@ specifiers:
   '@tabler/icons': ^1.118.0
   '@tanstack/react-query': ^4.20.4
   '@tanstack/react-router': 0.0.1-beta.38
+  '@tanstack/react-router-devtools': 0.0.1-beta.36
   '@types/react': ^18.0.26
   '@types/react-dom': ^18.0.9
   '@vitejs/plugin-react': ^3.0.0
   antd: ^5.1.1
   axios: ^1.2.1
   dayjs: ^1.11.7
-  jotai: ^1.12.0
   react: ^18.2.0
   react-dom: ^18.2.0
   typescript: ^4.9.3
   vite: ^4.0.0
+  zustand: ^4.1.5
 
 dependencies:
   '@tabler/icons': 1.118.0_biqbaboplfbrettd7655fr4n2y
   '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
   '@tanstack/react-router': 0.0.1-beta.38_biqbaboplfbrettd7655fr4n2y
+  '@tanstack/react-router-devtools': 0.0.1-beta.36_ehyabz2tztjac45y5r4sukz5ja
   antd: 5.1.1_biqbaboplfbrettd7655fr4n2y
   axios: 1.2.1
   dayjs: 1.11.7
-  jotai: 1.12.0_react@18.2.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  zustand: 4.1.5_react@18.2.0
 
 devDependencies:
   '@types/react': 18.0.26
@@ -650,6 +652,21 @@ packages:
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
+  /@tanstack/react-router-devtools/0.0.1-beta.36_ehyabz2tztjac45y5r4sukz5ja:
+    resolution: {integrity: sha512-AejhW7byY63JKnFNxG9ct2RpBFW+F0qumtEo4ThbS2mNz3acq8RkeygRPD1NFF97xkvEBwUB7DkgH/UViwoe8g==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      '@tanstack/react-router': 0.0.1-beta.36
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@babel/runtime': 7.20.7
+      '@tanstack/react-router': 0.0.1-beta.38_biqbaboplfbrettd7655fr4n2y
+      date-fns: 2.29.3
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /@tanstack/react-router/0.0.1-beta.38_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-i/pKuHZLwwB3bmP+Ty8bJtGfitrVNaYGbwtXtTw/jqhm6rXN6fd14jT4yW4XcktecSoWE6QK0yTE7viqdaEGuQ==}
     engines: {node: '>=12'}
@@ -867,6 +884,11 @@ packages:
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
 
+  /date-fns/2.29.3:
+    resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
+    engines: {node: '>=0.11'}
+    dev: false
+
   /dayjs/1.11.7:
     resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
     dev: false
@@ -1000,46 +1022,6 @@ packages:
     dependencies:
       has: 1.0.3
     dev: true
-
-  /jotai/1.12.0_react@18.2.0:
-    resolution: {integrity: sha512-IhyBmjxU1sE2Ni/MUK7gQAb8QvCM6yd1/K5jtQzgQBmmjCjgfXZkkk1rYlQAIRp2KoQk0Y+yzhm1f5cZ7kegnw==}
-    engines: {node: '>=12.20.0'}
-    peerDependencies:
-      '@babel/core': '*'
-      '@babel/template': '*'
-      jotai-immer: '*'
-      jotai-optics: '*'
-      jotai-redux: '*'
-      jotai-tanstack-query: '*'
-      jotai-urql: '*'
-      jotai-valtio: '*'
-      jotai-xstate: '*'
-      jotai-zustand: '*'
-      react: '>=16.8'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@babel/template':
-        optional: true
-      jotai-immer:
-        optional: true
-      jotai-optics:
-        optional: true
-      jotai-redux:
-        optional: true
-      jotai-tanstack-query:
-        optional: true
-      jotai-urql:
-        optional: true
-      jotai-valtio:
-        optional: true
-      jotai-xstate:
-        optional: true
-      jotai-zustand:
-        optional: true
-    dependencies:
-      react: 18.2.0
-    dev: false
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -1850,3 +1832,19 @@ packages:
   /yallist/3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
     dev: true
+
+  /zustand/4.1.5_react@18.2.0:
+    resolution: {integrity: sha512-PsdRT8Bvq22Yyh1tvpgdHNE7OAeFKqJXUxtJvj1Ixw2B9O2YZ1M34ImQ+xyZah4wZrR4lENMoDUutKPpyXCQ/Q==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      use-sync-external-store: 1.2.0_react@18.2.0
+    dev: false

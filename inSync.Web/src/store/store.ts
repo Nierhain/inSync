@@ -1,11 +1,18 @@
-import { atom, useAtom } from 'jotai';
+import create from 'zustand';
 
-export const adminKeyAtom = atom('adminKey');
-export const userAtom = atom('username');
-
-export const useStore = () => ({
-    adminKey: useAtom(adminKeyAtom)[0],
-    setAdminKey: useAtom(adminKeyAtom)[1],
-    username: useAtom(userAtom)[0],
-    setUsername: useAtom(userAtom)[1],
-});
+interface SyncStore {
+    username: string;
+    adminKey: string;
+    setAdminKey: (key: string) => void;
+    setUsername: (name: string) => void;
+    password: Record<string, string>;
+    addPassword: (id: string, password: string) => void;
+}
+export const useStore = create<SyncStore>((set) => ({
+    username: '',
+    adminKey: '',
+    setAdminKey: (key) => set((state) => ({ adminKey: key })),
+    setUsername: (name) => set((state) => ({ username: name })),
+    password: {},
+    addPassword: (id, password) => set((state) => ({ password: { ...state.password, [id]: password } })),
+}));

@@ -3,7 +3,7 @@ import { useQueryClient, QueryClientProvider, QueryClient } from '@tanstack/reac
 import { ConfigProvider, theme } from 'antd';
 import { ThemeContext, ThemeTypes } from '../utils/ThemeContext';
 import { toThemeType } from '../utils/Conversions';
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 const { darkAlgorithm, defaultAlgorithm } = theme;
 
 export default function Provider({ children }: { children: React.ReactNode }) {

@@ -1,21 +1,16 @@
-import { QueryFunction, QueryKey, useQuery } from '@tanstack/react-query';
+import { QueryFunction, QueryFunctionContext, QueryKey, useQuery } from '@tanstack/react-query';
 import { useStore } from '../store/store';
 import { AdminApi, UserApi } from '../utils/Api';
+import { getAdminLists, getCurrentUserLists, getListForAdmin, getUserList, queryBuilder } from '../utils/QueryFunctions';
 
-const queryKeys = {
-    itemLists: 'itemLists',
-    userLists: 'userLists',
-    singleList: 'singleList',
+export const queryKeys = {
+    adminList: 'itemLists',
+    userList: 'userLists',
+    minecraftItems: 'minecraftItems',
 };
 
-const queryBuilder = (queryKey: QueryKey, queryFn: QueryFunction) => {
-    const { data, isLoading, isError, error } = useQuery(queryKey, queryFn);
-    return { data, isLoading, isError, error };
-};
-
-export function useItemLists() {
-    const { adminKey } = useStore();
-    const query = queryBuilder([queryKeys.itemLists], () => AdminApi.loadLists(adminKey));
+export function useAdminLists() {
+    const query = queryBuilder([queryKeys.adminList], getAdminLists);
 
     return {
         lists: query.data,
@@ -26,7 +21,7 @@ export function useItemLists() {
 }
 
 export function useUserLists(user: string) {
-    const query = queryBuilder([queryKeys.userLists, user], () => UserApi.loadListsForUser(user));
+    const query = queryBuilder([queryKeys.userList, user], getCurrentUserLists, !!user);
 
     return {
         lists: query.data,
@@ -36,9 +31,9 @@ export function useUserLists(user: string) {
     };
 }
 
-export function useUserList(id: string) {
+export function useUserList(id: string, password: string) {
     const { username } = useStore();
-    const query = queryBuilder([queryKeys.singleList, id], () => UserApi.loadList(id, username));
+    const query = queryBuilder([queryKeys.userList, id, password], getUserList, !!username);
     return {
         list: query.data,
         isLoading: query.isLoading,
@@ -49,12 +44,12 @@ export function useUserList(id: string) {
 
 export function useAdminList(id: string) {
     const { adminKey } = useStore();
-    const query = queryBuilder([queryKeys.singleList, id], () => AdminApi.loadList(id, adminKey));
+    const query = queryBuilder([queryKeys.adminList, id], getListForAdmin, !!adminKey);
 
     return {
         list: query.data,
         isLoading: query.isLoading,
         isError: query.isError,
-        error: query.error
+        error: query.error,
     };
 }
