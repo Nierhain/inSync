@@ -18,20 +18,18 @@ public class CreateItemList : IRequest<Response<Guid>>
     public CreateItemList(ItemListRequest request, string password)
     {
         Password = password;
-        Username = request.Username;
-        Items = request.Items;
+        List = request;
     }
 
     public string Password { get; set; }
-    public string Username { get; set; }
-    public List<ItemDto> Items { get; set; }
+    public ItemListRequest List { get; set; }
 }
 
 public class CreateItemListValidations : IValidationHandler<CreateItemList>
 {
     public Task<ValidationResult> Validate(CreateItemList request)
     {
-        foreach (var item in request.Items)
+        foreach (var item in request.List.Items)
             if (item.Amount <= 0)
                 return Task.FromResult(ValidationResult.Fail($"amount can not be 0 or less: [{item.ResourceKey}]"));
 
@@ -61,10 +59,9 @@ public class CreateItemListHandler : IRequestHandler<CreateItemList, Response<Gu
             PasswordHash = hash,
             PasswordSalt = salt,
             CreatedAt = DateTime.Now,
-            IsActive = true,
-            Username = request.Username
+            IsActive = true
         };
-        list.Items = _mapper.Map(request.Items, list.Items);
+        list = _mapper.Map(request.List, list);
         await _repository.CreateItemList(list);
 
         return Response<Guid>.Created(list.Id);

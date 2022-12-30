@@ -25,38 +25,38 @@ public class AdminController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(typeof(Response<bool>), 200)]
-    public async Task<IActionResult> GetIsAdmin([FromHeader] string adminKey, CancellationToken token)
+    public async Task<IActionResult> GetIsAdmin([FromHeader] string adminkey, CancellationToken token)
     {
-        return Ok(await _mediator.Send(new VerifyAdminKey(adminKey), token));
+        return Ok(await _mediator.Send(new VerifyAdminKey(adminkey), token));
     }
 
     [HttpGet("lists")]
     [ProducesResponseType(typeof(Response<List<ItemListOverview>>), 200)]
-    public async Task<IActionResult> GetAllLists([FromHeader] string adminKey, CancellationToken token)
+    public async Task<IActionResult> GetAllLists([FromHeader] string adminkey, CancellationToken token)
     {
-        return Ok(await _mediator.Send(new GetLists(adminKey), token));
+        return Ok(await _mediator.Send(new GetLists(adminkey), token));
     }
 
     [HttpGet("lists/{id:guid}")]
     [ProducesResponseType(typeof(Response<ItemListDto>), 200)]
-    public async Task<IActionResult> GetList(Guid id, [FromHeader] string adminKey, CancellationToken token)
+    public async Task<IActionResult> GetList(Guid id, [FromHeader] string adminkey, CancellationToken token)
     {
-        return Ok(await _mediator.Send(new GetListById(id, adminKey), token));
+        return Ok(await _mediator.Send(new GetListById(id, adminkey), token));
     }
 
     [HttpGet("lists/user/{username}")]
     [ProducesResponseType(typeof(Response<List<ItemListOverview>>), 200)]
-    public async Task<IActionResult> GetListsForUser(string username, [FromHeader] string adminKey,
+    public async Task<IActionResult> GetListsForUser(string username, [FromHeader] string adminkey,
         CancellationToken token)
     {
-        return Ok(await _mediator.Send(new GetListsForUser(username, adminKey), token));
+        return Ok(await _mediator.Send(new GetListsForUser(username, adminkey), token));
     }
 
     [HttpPut("lists/lock")]
     [ProducesResponseType(typeof(Response<bool>), 200)]
-    public async Task<IActionResult> LockList(ListLock request, [FromHeader] string adminKey, CancellationToken token)
+    public async Task<IActionResult> LockList(ListLock request, [FromHeader] string adminkey, CancellationToken token)
     {
-        return Ok(await _mediator.Send(new LockList(request.Id, adminKey, request.Reason, request.IsLocked),
+        return Ok(await _mediator.Send(new LockList(request.Id, adminkey, request.Reason, request.IsLocked),
             token));
     }
 }

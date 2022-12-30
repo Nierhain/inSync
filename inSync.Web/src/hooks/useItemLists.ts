@@ -1,7 +1,9 @@
-import { QueryFunction, QueryFunctionContext, QueryKey, useQuery } from '@tanstack/react-query';
+import { QueryFunction, QueryFunctionContext, QueryKey, useQuery, UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { ItemList, Response, ResponseType } from '../models';
 import { useStore } from '../store/store';
 import { AdminApi, UserApi } from '../utils/Api';
-import { getAdminLists, getCurrentUserLists, getListForAdmin, getUserList, queryBuilder } from '../utils/QueryFunctions';
+import { getAdminLists, getCurrentUserLists, getListForAdmin, getUserList } from '../utils/QueryFunctions';
 
 export const queryKeys = {
     adminList: 'itemLists',
@@ -10,46 +12,35 @@ export const queryKeys = {
 };
 
 export function useAdminLists() {
-    const query = queryBuilder([queryKeys.adminList], getAdminLists);
+    const query = useQuery([queryKeys.adminList], getAdminLists);
 
-    return {
-        lists: query.data,
-        isLoading: query.isLoading,
-        isError: query.isError,
-        error: query.error,
-    };
+    return returnBuilder(query);
 }
 
 export function useUserLists(user: string) {
-    const query = queryBuilder([queryKeys.userList, user], getCurrentUserLists, !!user);
+    const query = useQuery([queryKeys.userList, user], getCurrentUserLists);
 
-    return {
-        lists: query.data,
-        isLoading: query.isLoading,
-        isError: query.isError,
-        error: query.error,
-    };
+    return returnBuilder(query);
 }
 
 export function useUserList(id: string, password: string) {
-    const { username } = useStore();
-    const query = queryBuilder([queryKeys.userList, id, password], getUserList, !!username);
-    return {
-        list: query.data,
-        isLoading: query.isLoading,
-        isError: query.isError,
-        error: query.error,
-    };
+    const query = useQuery([queryKeys.userList, id, password], getUserList);
+
+    return returnBuilder(query);
 }
 
 export function useAdminList(id: string) {
-    const { adminKey } = useStore();
-    const query = queryBuilder([queryKeys.adminList, id], getListForAdmin, !!adminKey);
+    const query = useQuery([queryKeys.adminList, id], getListForAdmin);
 
+    return returnBuilder(query);
+}
+
+function returnBuilder<T>(query: UseQueryResult<Response<T>>) {
+    const data = query.data?.data;
     return {
-        list: query.data,
+        data: data!,
+        isError: !data && !query.isLoading,
         isLoading: query.isLoading,
-        isError: query.isError,
-        error: query.error,
+        error: query.data ? query.data.errorMessage : `Request failed`,
     };
 }

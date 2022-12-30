@@ -74,7 +74,7 @@ public class DbRepository : IDbRepository
     public async Task<ItemListDto> GetItemList(Guid id)
     {
         return await _context.ItemLists.Where(x => x.Id == id).ProjectTo<ItemListDto>(_mapper.ConfigurationProvider)
-            .FirstAsync();
+            .FirstOrDefaultAsync();
     }
 
     public async Task<List<ItemListOverview>> GetLists()

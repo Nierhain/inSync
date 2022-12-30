@@ -27,7 +27,7 @@ public class ListController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(typeof(Response<List<ItemListOverview>>), 200)]
-    public async Task<IActionResult> GetListsForUser(string username, CancellationToken token)
+    public async Task<IActionResult> GetListsForUser([FromQuery]string username, CancellationToken token)
     {
         return Ok(await _mediator.Send(new GetUserLists(username), token));
     }

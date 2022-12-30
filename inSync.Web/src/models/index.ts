@@ -1,8 +1,15 @@
+import { Dayjs } from "dayjs";
+
 export interface ItemList {
     id: string;
     items: Item[];
+    createdAt: Dayjs;
     username: string;
     isActive: boolean;
+    title: string,
+    description: string,
+    isLockedByAdmin: boolean,
+    lockReason: string
 }
 
 export interface Item {
@@ -17,8 +24,7 @@ export interface ItemListRequest {
 }
 
 export interface UpdateListRequest {
-    username: string;
-    password: string;
+    id: string
     itemList: ItemList;
 }
 
@@ -29,7 +35,7 @@ export interface LockRequest {
     isLocked: boolean;
 }
 
-export interface Response<T extends ResponseType> {
+export interface Response<T> {
     data: T;
     statusCode: number;
     errorMessage: string;
