@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace inSync.Api.Migrations
+namespace inSync.Api.Migrations.MSSQL
 {
     /// <inheritdoc />
     public partial class Initial : Migration

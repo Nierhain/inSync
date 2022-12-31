@@ -20,6 +20,7 @@ if (builder.Environment.IsDevelopment())
 
 builder.Services.AddValidators();
 builder.Services.AddServices(builder.Configuration);
+builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "Cors", policy =>

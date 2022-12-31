@@ -87,4 +87,26 @@
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\SQLITE\20221231162823_Initial.cs" />
+    <Compile Remove="Migrations\SQLITE\20221231162823_Initial.Designer.cs" />
+    <Compile Remove="Migrations\SQLITE\SqliteContextModelSnapshot.cs" />
+    <Compile Remove="Migrations\MSSQL\20221231165317_Initial.cs" />
+    <Compile Remove="Migrations\MSSQL\20221231165317_Initial.Designer.cs" />
+    <Compile Remove="Migrations\MSSQL\MssqlContextModelSnapshot.cs" />
+    <Compile Remove="Migrations\Postgres\20221231165337_Initial.cs" />
+    <Compile Remove="Migrations\Postgres\20221231165337_Initial.Designer.cs" />
+    <Compile Remove="Migrations\Postgres\PostgresContextModelSnapshot.cs" />
+    <Compile Remove="Migrations\SQLITE\20221231165306_Initial.cs" />
+    <Compile Remove="Migrations\SQLITE\20221231165306_Initial.Designer.cs" />
+    <Compile Remove="Migrations\MSSQL\20221231165625_Initial.cs" />
+    <Compile Remove="Migrations\MSSQL\20221231165625_Initial.Designer.cs" />
+    <Compile Remove="Migrations\SQLITE\20221231165616_Initial.cs" />
+    <Compile Remove="Migrations\SQLITE\20221231165616_Initial.Designer.cs" />
+    <Compile Remove="Migrations\MySQL\20221231165634_Initial.cs" />
+    <Compile Remove="Migrations\MySQL\20221231165634_Initial.Designer.cs" />
+    <Compile Remove="Migrations\MySQL\MysqlContextModelSnapshot.cs" />
+    <Compile Remove="Migrations\Postgres\20221231165643_Initial.cs" />
+    <Compile Remove="Migrations\Postgres\20221231165643_Initial.Designer.cs" />
+  </ItemGroup>
 </Project>

@@ -26,7 +26,6 @@ public static class DependencyExtensions
     public static IServiceCollection AddServices(this IServiceCollection services, ConfigurationManager config)
     {
         services.AddMediatR(typeof(Program));
-        services.AddDbContext<SyncContext>(options => GetOptions(options, config));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         services.AddAutoMapper(config =>
         {
@@ -39,7 +38,7 @@ public static class DependencyExtensions
         return services;
     }
 
-    private static DbContextOptionsBuilder GetOptions(DbContextOptionsBuilder options, ConfigurationManager config)
+    public static IServiceCollection AddDatabase(this IServiceCollection services, ConfigurationManager config)
     {
         var type = config.GetValue<string>("DBProvider") ?? "NOTFOUND";
         var connectionString = config.GetConnectionString("Default");
@@ -49,37 +48,28 @@ public static class DependencyExtensions
         switch (type)
         {
             case "SQLITE":
-                options.UseSqlite(config.GetConnectionString("Default"));
+                services.AddDbContext<SyncContext, SqliteContext>(options => options.UseSqlite(connectionString));
                 break;
             case "MSSQL":
-                options.UseSqlServer(config.GetConnectionString("Default"));
+                services.AddDbContext<SyncContext, MssqlContext>(options => options.UseSqlServer(connectionString));
                 break;
             case "MYSQL":
-                options.UseMySql(connectionString, new MySqlServerVersion(config.GetValue<string>("DBServerVersion")));
+                services.AddDbContext<SyncContext, MysqlContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(config.GetValue<string>("DBServerVersion"))));
                 break;
             case "MARIADB":
-                options.UseMySql(connectionString,
-                    new MariaDbServerVersion(config.GetValue<string>("DBServerVersion")));
+                services.AddDbContext<SyncContext, MysqlContext>(options => options.UseMySql(connectionString,
+                    new MariaDbServerVersion(config.GetValue<string>("DBServerVersion"))));
                 break;
             case "POSTGRES":
-                options.UseNpgsql(connectionString);
-                break;
-            case "COSMOS":
-                var cosmosDbName = config.GetValue<string>("CosmosDBName");
-                if (cosmosDbName is null)
-                {
-                    throwException("Cosmos Db name not supplied");
-                    break;
-                }
-
-                options.UseCosmos(connectionString, cosmosDbName);
+                services.AddDbContext<SyncContext, PostgresContext>(options => options.UseNpgsql(connectionString));
                 break;
             default:
+                throwException("Unknown DB Provider. Please check for incorrect spelling or consult the documentation");
                 break;
         }
 
         ;
-        return options;
+        return services;
     }
 
     private static bool IsProviderValid(string provider)
@@ -90,8 +80,7 @@ public static class DependencyExtensions
             "MSSQL",
             "MYSQL",
             "MARIADB",
-            "POSTGRES",
-            "COSMOS"
+            "POSTGRES"
         };
         return validProviders.Contains(provider);
     }
