@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": {"model":  "insync:block/printer_on"}
+  }
+}

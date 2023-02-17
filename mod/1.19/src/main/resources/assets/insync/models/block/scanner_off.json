@@ -1,0 +1,11 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "north": "insync:block/scanner_off",
+    "west": "insync:block/machine_side",
+    "east": "insync:block/machine_side",
+    "south": "insync:block/machine_side",
+    "down": "insync:block/machine_bottom",
+    "up": "insync:block/machine_bottom"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": {"model":  "insync:block/scanner_on"},
+    "facing=south": {"model":  "insync:block/scanner_on","y":  180},
+    "facing=west": {"model":  "insync:block/scanner_on", "y":  270},
+    "facing=east": {"model":  "insync:block/scanner_on", "y":  90}
+  }
+}

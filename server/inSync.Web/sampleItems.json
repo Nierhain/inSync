@@ -1,0 +1,9 @@
+{
+    "items": [
+        {"resourceKey": "minecraft:stone", "displayName": "Stone"},
+        {"resourceKey": "minecraft:dirt", "displayName": "Dirt"},
+        {"resourceKey": "minecraft:cobblestone", "displayName": "Cobblestone"},
+        {"resourceKey": "minecraft:grass", "displayName": "Grass"},
+        {"resourceKey": "minecraft:oak_wood", "displayName": "Oak Log"}
+    ]
+}
