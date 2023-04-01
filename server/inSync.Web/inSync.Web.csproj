@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <PackageReference Include="AntDesign" Version="0.14.4" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
     <ItemGroup>
