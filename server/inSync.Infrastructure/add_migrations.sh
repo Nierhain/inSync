@@ -1,10 +1,21 @@
-﻿#!/usr/bin/env bash
+#!/bin/bash
 
 name="$1"
 
-if [[-z "$name"]]; then
+if [ -z "$name" ]; then
     echo "Please input your migration name"
     read name
+fi
+
+if ! command -v dotnet &> /dev/null
+then
+  echo "dotnet is not installed. Install it and try again."
+  exit
+fi
+
+if ! dotnet tool list --global | grep -q "dotnet-ef"; then
+  echo "EFCore tools missing. Installing now"
+  dotnet tool install --global dotnet-ef
 fi
 
 echo "Starting creation of migrations..."
