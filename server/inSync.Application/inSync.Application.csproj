@@ -21,4 +21,8 @@
       <_Parameter1>inSync.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\inSync.Domain\inSync.Domain.csproj" />
+  </ItemGroup>
 </Project>

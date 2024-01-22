@@ -1,6 +1,6 @@
-﻿using inSync.Application.Models.Dtos;
+﻿using inSync.Web.Dtos;
 
-namespace inSync.Application.Models.Requests;
+namespace inSync.Web.Requests;
 
 public class UpdateListRequest
 {

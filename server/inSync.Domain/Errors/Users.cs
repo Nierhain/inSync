@@ -7,6 +7,6 @@ public static partial class Errors
         public const string NotFound = "User not found";
         public const string NotAuthorized = "User is not authorized";
         public const string WrongCredentials = "Username and/or password incorrect";
-        
+        public static readonly Error UsernameAlreadyExists = new Error(nameof(UsernameAlreadyExists), "Username already exists.");
     }
 }

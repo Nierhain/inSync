@@ -1,5 +1,5 @@
-﻿using inSync.Application.Models;
-using inSync.Application.Models.Dtos;
+﻿using inSync.Application.Models.Dtos;
+using inSync.Domain.Models;
 using MediatR;
 
 namespace inSync.Application.Queries;
@@ -19,6 +19,6 @@ public class GetItemNamesHandler : IRequestHandler<GetItemNames, Response<List<M
 
     public async Task<Response<List<MinecraftItemDto>>> Handle(GetItemNames request, CancellationToken cancellationToken)
     {
-        return Response<List<MinecraftItemDto>>.OK(await _repository.GetMinecraftItems());
+        return Response<List<MinecraftItemDto>>.Ok(await _repository.GetMinecraftItems());
     }
 }

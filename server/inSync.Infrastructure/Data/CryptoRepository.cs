@@ -2,7 +2,7 @@
 
 using System.Security.Cryptography;
 using System.Text;
-using inSync.Application.Models;
+using inSync.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 #endregion

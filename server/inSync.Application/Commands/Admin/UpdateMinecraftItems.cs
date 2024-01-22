@@ -1,6 +1,6 @@
-﻿using inSync.Application.Models;
-using inSync.Application.Models.Dtos;
+﻿using inSync.Application.Models.Dtos;
 using inSync.Application.Validation;
+using inSync.Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 
@@ -46,6 +46,6 @@ public class UpdateMinecraftItemsHandler : IRequestHandler<UpdateMinecraftItems,
     public async Task<Response<List<MinecraftItemDto>>> Handle(UpdateMinecraftItems request, CancellationToken cancellationToken)
     {
         await _repository.UpdateMinecraftItems(request.Items);
-        return Response<List<MinecraftItemDto>>.OK(await _repository.GetMinecraftItems());
+        return Response<List<MinecraftItemDto>>.Ok(await _repository.GetMinecraftItems());
     }
 }

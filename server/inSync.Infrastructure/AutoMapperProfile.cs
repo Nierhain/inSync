@@ -1,9 +1,10 @@
 ﻿#region
 
 using AutoMapper;
-using inSync.Application.Models;
 using inSync.Application.Models.Dtos;
 using inSync.Application.Models.Requests;
+using inSync.Domain.ItemLists;
+using inSync.Domain.Models;
 
 #endregion
 

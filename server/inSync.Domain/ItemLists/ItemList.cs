@@ -1,4 +1,6 @@
 ﻿using inSync.Application.ItemLists.ValueObjects;
+using inSync.Domain.Abstractions;
+using inSync.Domain.Events;
 
 namespace inSync.Application.Models
 {
@@ -65,3 +67,99 @@ namespace inSync.Application.Models
     }
 }
 
+public class ItemList : AggregateRoot
+{
+	private ItemList(Guid id, List<Item> items, UserId owner, string title, string description)
+	{
+		Id = new ItemListId(id);
+		_items = items;
+		Owner = owner;
+		IsActive = true;
+		CreatedAt = DateTime.UtcNow;
+		Title = title;
+		Description = description;
+	}
+	public ItemListId Id { get; init; }
+
+	private readonly List<Item> _items;
+	public IReadOnlyCollection<Item> Items => _items;
+	
+	public string Title { get; private set; }
+	public string Description { get; private set; }
+	public bool IsActive { get; private set; }
+	public bool IsLocked => ItemListLock is not null;
+	public UserId Owner { get; private set; }
+	public ItemListLock? ItemListLock { get; private set; }
+	public DateTime CreatedAt { get; init; }
+
+	public static ItemList Create(List<Item> items, UserId ownerId,string title, string description)
+	{
+		return new ItemList(Guid.NewGuid(), items, ownerId,  title,  description);
+		
+	}
+
+	public void ChangeTitle(string title)
+	{
+		if (title.Length > 255)
+		{
+			//throw too long error
+			return;
+		}
+
+		Title = title;
+	}
+	
+	public void ChangeDescription(string description)
+	{
+		if (description.Length > 1025)
+		{
+			//throw too long error
+			return;
+		}
+
+		Description = description;
+	}
+
+	public void DepositItem(Item item)
+	{
+		var existing = _items.FirstOrDefault(x => x.ResourceKey == item.ResourceKey);
+
+		if (existing is not null)
+		{
+			_items.Remove(existing);
+			existing.Amount += item.Amount;
+			_items.Add(existing);
+		}
+		else
+		{
+			_items.Add(item);
+		}
+	}
+
+	public void WithdrawItem(string resourceKey, int amount)
+	{
+		var item = _items.FirstOrDefault(x => x.ResourceKey == resourceKey);
+		if (item is null)
+		{
+			//TODO
+			//throw Error
+			return;
+		}
+		if (amount > item.Amount)
+		{
+			//TODO
+			//throw Error
+			return;
+		}
+		_items.Remove(item);
+		item.Amount -= amount;
+		_items.Add(item);
+	}
+
+	public void LockList(UserId lockedBy, string reason)
+	{
+		var lockObj = ItemListLock.Create(Id, lockedBy, reason);
+		ItemListLock = lockObj;
+		RaiseDomainEvent(new ItemListLockedEvent(lockObj.Id));
+	}
+}

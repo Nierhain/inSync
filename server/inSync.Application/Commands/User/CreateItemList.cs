@@ -1,10 +1,11 @@
 ﻿#region
 
 using AutoMapper;
-using inSync.Application.Models;
 using inSync.Application.Models.Requests;
 using inSync.Application.Utils;
 using inSync.Application.Validation;
+using inSync.Domain.ItemLists;
+using inSync.Domain.Models;
 using MediatR;
 
 #endregion

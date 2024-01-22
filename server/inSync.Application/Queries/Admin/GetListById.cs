@@ -1,8 +1,9 @@
 ﻿#region
 
-using inSync.Application.Models;
 using inSync.Application.Models.Dtos;
 using inSync.Application.Validation;
+using inSync.Domain.ItemLists;
+using inSync.Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 
@@ -54,6 +55,6 @@ public class GetListByIdHandler : IRequestHandler<GetListById, Response<ItemList
 
     public async Task<Response<ItemListDto>> Handle(GetListById request, CancellationToken cancellationToken)
     {
-        return Response<ItemListDto>.OK(await _repository.GetItemList(request.Id));
+        return Response<ItemListDto>.Ok(await _repository.GetItemList(request.Id));
     }
 }

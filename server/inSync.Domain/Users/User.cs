@@ -1,6 +1,10 @@
+using inSync.Application.ItemLists.ValueObjects;
+using inSync.Domain.Abstractions;
+
 namespace inSync.Domain.Users;
 
-public class User {
+public class User : AggregateRoot
+{
     private readonly HashSet<ItemListId> _items = new HashSet<ItemListId>();
     public UserId Id {get; init;}
 
@@ -8,7 +12,7 @@ public class User {
     public byte[] Hash {get; private set;}
     public byte[] Salt {get; private set;}
 
-    public IReadOnlyHashSet<ItemListId> ItemLists => _items.ToHashSet();
+    public IReadOnlySet<ItemListId> ItemLists => _items.ToHashSet();
 
     public void SetPassword(byte[] hash, byte[] salt){
         Hash = hash;
@@ -16,7 +20,7 @@ public class User {
     }
 
     public Result<User> SetUsername(HashSet<User> users, string name){
-        if(IsUnique(users, name)){
+        if(IsUnique(name, users)){
             Username = name;
             return Result.Success(this);
         } else {
@@ -24,7 +28,7 @@ public class User {
         }
     }
 
-    public static bool IsUnique(string name, HashSet<User> users){
+    private static bool IsUnique(string name, HashSet<User> users){
         return true;
     }
 }

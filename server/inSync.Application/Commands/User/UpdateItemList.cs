@@ -1,9 +1,11 @@
 ﻿#region
 
-using inSync.Application.Models;
 using inSync.Application.Models.Dtos;
 using inSync.Application.Models.Requests;
 using inSync.Application.Validation;
+using inSync.Domain.Abstractions;
+using inSync.Domain.ItemLists;
+using inSync.Domain.Models;
 using MediatR;
 
 #endregion
@@ -58,6 +60,6 @@ public class UpdateItemListHandler : IRequestHandler<UpdateItemList, Response<bo
     public async Task<Response<bool>> Handle(UpdateItemList request, CancellationToken cancellationToken)
     {
         await _repository.UpdateItemList(request.Id, request.ItemList);
-        return Response<bool>.OK(true);
+        return Response<bool>.Ok(true);
     }
 }

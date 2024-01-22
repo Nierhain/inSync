@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
 using inSync.Application.Errors;
-using inSync.Application.Models;
 using inSync.Application.Queries.User;
+using inSync.Domain.Abstractions;
+using inSync.Domain.Models;
+using inSync.Domain.Users;
 using inSync.Tests.Mocks;
 using Moq;
 

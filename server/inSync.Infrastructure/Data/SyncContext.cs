@@ -1,6 +1,7 @@
 ﻿#region
 
-using inSync.Application.Models;
+using inSync.Domain.ItemLists;
+using inSync.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

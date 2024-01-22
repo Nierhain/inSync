@@ -1,8 +1,8 @@
 ﻿#region
 
-using inSync.Application.Models;
 using inSync.Application.Models.Dtos;
 using inSync.Application.Validation;
+using inSync.Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 
@@ -50,6 +50,6 @@ public class GetListsForUserHandler : IRequestHandler<GetListsForUser, Response<
     public async Task<Response<List<ItemListOverview>>> Handle(GetListsForUser request,
         CancellationToken cancellationToken)
     {
-        return Response<List<ItemListOverview>>.OK(await _repository.GetListsForUser(request.Username));
+        return Response<List<ItemListOverview>>.Ok(await _repository.GetListsForUser(request.Username));
     }
 }

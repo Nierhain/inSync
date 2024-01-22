@@ -1,4 +1,4 @@
-﻿namespace inSync.Application.Models;
+﻿namespace inSync.Domain.Abstractions;
 
 public interface ICryptoRepository
 {

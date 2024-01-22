@@ -1,5 +1,6 @@
-﻿using inSync.Application.Models;
-using inSync.Application.Models.Dtos;
+﻿using inSync.Application.Models.Dtos;
+using inSync.Domain.ItemLists;
+using inSync.Domain.Models;
 using Moq;
 
 namespace inSync.Tests.Mocks;

@@ -1,4 +1,5 @@
-﻿using inSync.Application.Models;
+﻿using inSync.Domain.Abstractions;
+using inSync.Domain.Models;
 using Moq;
 
 namespace inSync.Tests.Mocks;

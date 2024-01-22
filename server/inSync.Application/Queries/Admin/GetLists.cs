@@ -1,8 +1,8 @@
 ﻿#region
 
-using inSync.Application.Models;
 using inSync.Application.Models.Dtos;
 using inSync.Application.Validation;
+using inSync.Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 
@@ -49,6 +49,6 @@ public class GetListsHandler : IRequestHandler<GetLists, Response<List<ItemListO
     public async Task<Response<List<ItemListOverview>>> Handle(GetLists request, CancellationToken cancellationToken)
     {
         var lists = await _repository.GetLists();
-        return Response<List<ItemListOverview>>.OK(lists);
+        return Response<List<ItemListOverview>>.Ok(lists);
     }
 }

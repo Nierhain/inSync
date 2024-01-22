@@ -1,7 +1,7 @@
 ﻿#region
 
-using inSync.Application.Models;
 using inSync.Application.Validation;
+using inSync.Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 
@@ -39,7 +39,7 @@ public class VerifyAdminKeyHandler : IRequestHandler<VerifyAdminKey, Response<bo
     public Task<Response<bool>> Handle(VerifyAdminKey request, CancellationToken cancellationToken)
     {
         var response = request.AdminKey == _config["AdminKey"]
-            ? Response<bool>.OK(true)
+            ? Response<bool>.Ok(true)
             : Response<bool>.BadRequest("Wrong admin key");
         return Task.FromResult(response);
     }

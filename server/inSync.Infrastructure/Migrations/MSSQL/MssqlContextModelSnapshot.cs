@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using inSync.Infrastructure.Data;
 
 #nullable disable
-
 namespace inSync.Infrastructure.Migrations.MSSQL
 {
     [DbContext(typeof(MssqlContext))]

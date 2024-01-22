@@ -1,6 +1,6 @@
 ﻿using inSync.Application.Commands.Admin;
-using inSync.Application.Models.Dtos;
 using inSync.Application.Queries;
+using inSync.Web.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

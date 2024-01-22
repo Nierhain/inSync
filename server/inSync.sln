@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "inSync.Infrastructure", "in
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "inSync.Web", "inSync.Web\inSync.Web.csproj", "{C866C7D4-9B54-4BE0-A95F-13E455E317F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "inSync.Domain", "inSync.Domain\inSync.Domain.csproj", "{D23FE8E3-FE11-4D7F-A33C-D94FF9F9D0CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C866C7D4-9B54-4BE0-A95F-13E455E317F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C866C7D4-9B54-4BE0-A95F-13E455E317F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C866C7D4-9B54-4BE0-A95F-13E455E317F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D23FE8E3-FE11-4D7F-A33C-D94FF9F9D0CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D23FE8E3-FE11-4D7F-A33C-D94FF9F9D0CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D23FE8E3-FE11-4D7F-A33C-D94FF9F9D0CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D23FE8E3-FE11-4D7F-A33C-D94FF9F9D0CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

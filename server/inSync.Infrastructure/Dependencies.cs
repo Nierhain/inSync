@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
-using inSync.Application.Models;
+using inSync.Domain.Abstractions;
+using inSync.Domain.Models;
 using inSync.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,7 @@ public static class Dependencies
             config.AddCollectionMappers();
             config.UseEntityFrameworkCoreModel<SyncContext>(services);
         }, typeof(Dependencies).Assembly);
-        services.AddScoped<IDbRepository, DbRepository>();
+        services.AddScoped<IDbRepository, ItemListRepository>();
         services.AddScoped<ICryptoRepository, CryptoRepository>();
         services.AddDatabase(config);
         return services;
@@ -26,7 +27,6 @@ public static class Dependencies
     
     private static void AddDatabase(this IServiceCollection services, ConfigurationManager config)
     {
-        // var type = config.GetGetValue<string>("DBProvider") ?? "NOTFOUND";
         var type = config["DBProvider"];
         if (type is null) throwException("DBProvider is missing");
         var connectionString = config.GetConnectionString("Default");

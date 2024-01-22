@@ -1,7 +1,8 @@
 ﻿#region
 
-using inSync.Application.Models;
 using inSync.Application.Validation;
+using inSync.Domain.ItemLists;
+using inSync.Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 
@@ -61,6 +62,6 @@ public class LockListHandler : IRequestHandler<LockList, Response<bool>>
         list.IsLockedByAdmin = request.IsLocked;
         list.LockReason = request.Reason;
         await _repository.UpdateItemList(list.Id, list);
-        return Response<bool>.OK(true);
+        return Response<bool>.Ok(true);
     }
 }

@@ -1,7 +1,7 @@
 ﻿#region
 
-using inSync.Application.Models;
 using inSync.Application.Models.Dtos;
+using inSync.Domain.Models;
 using MediatR;
 
 #endregion
@@ -31,6 +31,6 @@ public class GetUserListsHandler : IRequestHandler<GetUserLists, Response<List<I
         CancellationToken cancellationToken)
     {
         var lists = await _repository.GetListsForUser(request.Username);
-        return Response<List<ItemListOverview>>.OK(lists);
+        return Response<List<ItemListOverview>>.Ok(lists);
     }
 }

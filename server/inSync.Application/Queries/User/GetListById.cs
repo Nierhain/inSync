@@ -1,9 +1,12 @@
 ﻿#region
 
-using inSync.Application.Models;
 using inSync.Application.Errors;
 using inSync.Application.Models.Dtos;
 using inSync.Application.Validation;
+using inSync.Domain.Abstractions;
+using inSync.Domain.ItemLists;
+using inSync.Domain.Models;
+using inSync.Domain.Users;
 using MediatR;
 
 #endregion
@@ -57,6 +60,6 @@ internal sealed class GetListByIdHandler : IRequestHandler<GetListById, Response
     public async Task<Response<ItemListDto>> Handle(GetListById request, CancellationToken cancellationToken)
     {
         var list = await _repository.GetItemList(request.Id);
-        return Response<ItemListDto>.OK(list);
+        return Response<ItemListDto>.Ok(list);
     }
 }

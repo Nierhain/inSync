@@ -1,7 +1,7 @@
 ﻿#region
 
 using System.Net;
-using inSync.Application.Models;
+using inSync.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

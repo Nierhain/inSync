@@ -1,4 +1,4 @@
-﻿namespace inSync.Application.Models.Dtos;
+﻿namespace inSync.Web.Dtos;
 
 public class ItemListDto
 {
